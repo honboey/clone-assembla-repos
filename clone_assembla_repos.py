@@ -1,6 +1,9 @@
 import subprocess
 import json
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 api_key = os.getenv("ASSEMBLA_KEY")
 api_secret = os.getenv("ASSEMBLA_SECRET")
@@ -8,8 +11,6 @@ api_secret = os.getenv("ASSEMBLA_SECRET")
 
 # JSON -> List
 # Given a JSON file of Space information, pull out the ID of each Space
-
-
 def make_list_of_spaces(json):
     list_of_spaces = []
     for space in json:
@@ -22,8 +23,7 @@ def make_list_of_spaces(json):
 # ["space-id-1", "space-id-2", "space-id-3"], "file/path" -> JSON
 def make_json_of_spaces_repos(list, str):
     # Create empty JSON file
-    repo_list_file = str
-    with open(repo_list_file, "w") as repo_list:
+    with open(str, "w") as repo_list:
         json.dump([], repo_list)
 
     for space in list:
@@ -40,13 +40,27 @@ def make_json_of_spaces_repos(list, str):
         output_json = json.loads(output_raw)
 
         # Open and then add to the JSON file
-        with open(repo_list_file, "r") as repo_list:
+        with open(str, "r") as repo_list:
             existing_data = json.load(repo_list)
         existing_data.append(output_json)
-        with open(repo_list_file, "w") as repo_list:
+        with open(str, "w") as repo_list:
             json.dump(existing_data, repo_list, indent=2)
 
-    with open(repo_list_file, "r") as repo_list:
+    with open(str, "r") as repo_list:
         repo_list_content = json.load(repo_list)
     return repo_list_content
+
+
+# Str -> List
+# Given a file path of a JSON file, extract the repo URLs and make a list
+def make_list_of_github_repos(str):
+    list_of_github_repos = []
+    with open(str, "r") as repo_list:
+        repo_list_content = json.load(repo_list)
+    for space_repo in repo_list_content:
+        for repo in space_repo:
+            if type(repo) is dict:
+                list_of_github_repos.append(repo["ssh_clone_url"])
+    return list_of_github_repos
+
 
