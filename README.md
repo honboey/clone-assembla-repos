@@ -1,13 +1,14 @@
 # Clone all Assembla repos
 
-This is a Python script that clones all your available Assembla repos
+(WIP) This is a Python script that clones all your available Assembla repos
 
-## Setup
+## Setup 
 
 ### Get your Assembla keys
-1. Register a new personal key in Assembla. Make sure you enable API and Repository access
+1. Register a new personal key in Assembla. Make sure you enable API and Repository access.
+   blah blah blah 
 
-2. Use this script to access the api
+3. Use this script to access the api
 ```
 curl -H "X-Api-Key: <key>" -H "X-Api-Secret: <secret>" https://api.assembla.com/<path to resource>.json
 ```
@@ -15,4 +16,4 @@ curl -H "X-Api-Key: <key>" -H "X-Api-Secret: <secret>" https://api.assembla.com/
 ```
 curl -H "X-Api-Key: <key>" -H "X-Api-Secret: <secret>" https://api.assembla.com/v1/spaces.json
 ```
-
+4. Do more stuff and then voila
