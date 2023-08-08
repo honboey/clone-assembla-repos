@@ -9,6 +9,11 @@ api_key = os.getenv("ASSEMBLA_KEY")
 api_secret = os.getenv("ASSEMBLA_SECRET")
 
 
+def main():
+    filepath_of_users_spaces = input("What is the filepath of the JSON file that holds all your spaces? ")
+    make_list_of_spaces(filepath_of_users_spaces)
+
+
 # Str -> List
 # Given a JSON filepath of all the spaces a user belongs to, pull out the ID of each Space
 def make_list_of_spaces(str):
@@ -18,7 +23,6 @@ def make_list_of_spaces(str):
     for space in user_spaces:
         list_of_spaces.append(space["id"])
     return list_of_spaces
-
 
 # Lst, Str -> JSON
 # Given a list of space ids and a file path, create a json file of all the repos in those spaces
@@ -64,3 +68,5 @@ def make_list_of_github_repos(str):
             if type(repo) is dict:
                 list_of_github_repos.append(repo["ssh_clone_url"])
     return list_of_github_repos
+
+main()
