@@ -1,11 +1,23 @@
 import json
+import os
 from clone_assembla_repos import (
+    make_json_file_of_users_spaces,
     make_list_of_space_ids,
     make_json_of_spaces_repos,
     make_list_of_repo_urls,
 )
+from dotenv import load_dotenv
+
+load_dotenv()
+
+api_key = os.getenv("ASSEMBLA_KEY")
+api_secret = os.getenv("ASSEMBLA_SECRET")
 
 # Test data
+with open("data/test-data/test_json_of_spaces.json", "r") as test_json_of_spaces_file:
+    test_json_of_spaces = json.load(test_json_of_spaces_file)
+
+
 test_list_of_spaces_ids = [
     "bHeZE2SX4r3PYIeJe5afGb",
     "a9LKRAvAWr4ir7eJe5cbLA",
@@ -24,6 +36,12 @@ with open(
 
 
 # Tests
+
+
+def test_make_json_file_of_users_spaces():
+    assert make_json_file_of_users_spaces(api_key, api_secret) == test_spaces_repos
+
+
 def test_make_list_of_space_ids():
     assert (
         make_list_of_space_ids("data/test-data/test_spaces.json")

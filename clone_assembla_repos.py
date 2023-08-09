@@ -17,6 +17,19 @@ def main():
     print(make_list_of_repo_urls(filepath_of_repos))
 
 
+def make_json_file_of_users_spaces(key, secret):
+    call_api_for_json_of_spaces = f"curl -H 'X-Api-Key: {key}' -H 'X-Api-Secret: {secret}' https://api.assembla.com/v1/spaces.json"
+    output_raw = subprocess.run(
+        call_api_for_json_of_spaces,
+        shell=True,
+        text=True,
+        capture_output=True,
+    ).stdout
+    # with open("data/users_spaces.json", "w") as json_of_users_spaces:
+    #     json.dump(output_raw, json_of_users_spaces, indent=4)
+    print(output_raw)
+    return output_raw
+
 # Str -> List
 # Given a JSON filepath of all the spaces a user belongs to, pull out the ID of each Space
 def make_list_of_space_ids(str):
@@ -73,4 +86,5 @@ def make_list_of_repo_urls(str):
                 list_of_repo_urls .append(repo["ssh_clone_url"])
     return list_of_repo_urls 
 
-main()
+# main()
+make_json_file_of_users_spaces(api_key, api_secret)
