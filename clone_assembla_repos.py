@@ -14,7 +14,7 @@ def main():
     list_of_space_ids = make_list_of_space_ids(filepath_of_users_spaces)
     filepath_of_repos = input("Where do you want to save the JSON file of all your repos? ")
     make_json_of_spaces_repos(list_of_space_ids, filepath_of_repos)
-    print(make_list_of_github_repos(filepath_of_repos))
+    print(make_list_of_repo_urls(filepath_of_repos))
 
 
 # Str -> List
@@ -63,14 +63,14 @@ def make_json_of_spaces_repos(list, str):
 
 # Str -> List
 # Given a file path of a JSON file which holds the repo information for all the spaces, extract the repo URLs and make a list
-def make_list_of_github_repos(str):
-    list_of_github_repos = []
+def make_list_of_repo_urls(str):
+    list_of_repo_urls = []
     with open(str, "r") as repo_list:
         repo_list_content = json.load(repo_list)
     for space_repo in repo_list_content:
         for repo in space_repo:
             if type(repo) is dict:
-                list_of_github_repos.append(repo["ssh_clone_url"])
-    return list_of_github_repos
+                list_of_repo_urls .append(repo["ssh_clone_url"])
+    return list_of_repo_urls 
 
 main()
