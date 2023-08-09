@@ -11,21 +11,24 @@ api_secret = os.getenv("ASSEMBLA_SECRET")
 
 def main():
     filepath_of_users_spaces = input("What is the filepath of the JSON file that holds all your spaces? ")
-    make_list_of_spaces(filepath_of_users_spaces)
+    list_of_space_ids = make_list_of_space_ids(filepath_of_users_spaces)
+    filepath_of_repos = input("Where do you want to save the JSON file of all your repos? ")
+    make_json_of_spaces_repos(list_of_space_ids, filepath_of_repos)
+    print(make_list_of_github_repos(filepath_of_repos))
 
 
 # Str -> List
 # Given a JSON filepath of all the spaces a user belongs to, pull out the ID of each Space
-def make_list_of_spaces(str):
-    list_of_spaces = []
+def make_list_of_space_ids(str):
+    list_of_space_ids = []
     with open(str, "r") as user_spaces_json:
         user_spaces = json.load(user_spaces_json)
     for space in user_spaces:
-        list_of_spaces.append(space["id"])
-    return list_of_spaces
+        list_of_space_ids.append(space["id"])
+    return list_of_space_ids
 
 # Lst, Str -> JSON
-# Given a list of space ids and a file path, create a json file of all the repos in those spaces
+# Given a list of space ids and a file path, create a json file of all the repos in those spaces at the given file path
 # ["space-id-1", "space-id-2", "space-id-3"], "file/path" -> JSON
 def make_json_of_spaces_repos(list, str):
     # Create empty JSON file
@@ -42,8 +45,9 @@ def make_json_of_spaces_repos(list, str):
             capture_output=True,
         ).stdout
 
-        # Convert raw output to JSON
-        output_json = json.loads(output_raw)
+        # Convert raw output to JSON if it is not an empty string
+        if output_raw != "":
+            output_json = json.loads(output_raw)
 
         # Open and then add to the JSON file
         with open(str, "r") as repo_list:
@@ -58,7 +62,7 @@ def make_json_of_spaces_repos(list, str):
 
 
 # Str -> List
-# Given a file path of a JSON file, extract the repo URLs and make a list
+# Given a file path of a JSON file which holds the repo information for all the spaces, extract the repo URLs and make a list
 def make_list_of_github_repos(str):
     list_of_github_repos = []
     with open(str, "r") as repo_list:

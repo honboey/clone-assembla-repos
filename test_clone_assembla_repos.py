@@ -1,6 +1,6 @@
 import json
 from clone_assembla_repos import (
-    make_list_of_spaces,
+    make_list_of_space_ids,
     make_json_of_spaces_repos,
     make_list_of_github_repos,
 )
@@ -24,9 +24,9 @@ with open(
 
 
 # Tests
-def test_make_list_of_spaces():
+def test_make_list_of_space_ids():
     assert (
-        make_list_of_spaces("data/test-data/test_spaces.json")
+        make_list_of_space_ids("data/test-data/test_spaces.json")
         == test_list_of_spaces_ids
     )
 
