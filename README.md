@@ -60,6 +60,7 @@ The script is creating a new JSON file and needs to know where to put it. Give i
 ## How the script works
 
 1. The script grabs the JSON list of your spaces and spits out a list of all the Space IDs.
-2. It then takes that list of Space IDs and creates a JSON file of all the repos in those spaces
-3. That list of repos has a lot of information we don't need so the next step is to pull out just the repo URLs.
-4. It then prints out that list in the terminal for you.
+2. It then takes that list of Space IDs and for each space it makes a call to the Assembla API to get the repos for that space.
+3. It then compiles a JSON file of all the repos that is has gathered.
+4. That list of repos has a lot of information we don't need so the next step is to pull out just the repo URLs.
+5. It then prints out that list of repo URLs in the terminal.
