@@ -12,11 +12,10 @@ api_secret = os.getenv("ASSEMBLA_SECRET")
 
 
 def main():
-    filepath_of_users_spaces = input("What is the filepath of the JSON file that holds all your spaces? ")
-    list_of_space_ids = make_list_of_space_ids(filepath_of_users_spaces)
-    filepath_of_repos = input("Where do you want to save the JSON file of all your repos? ")
-    make_json_of_spaces_repos(list_of_space_ids, filepath_of_repos)
-    print(make_list_of_repo_urls(filepath_of_repos))
+    make_json_file_of_users_spaces(api_key, api_secret)
+    list_of_space_ids = make_list_of_space_ids("data/users_spaces.json")
+    make_json_of_spaces_repos(list_of_space_ids, "data/users_repos.json")
+    make_list_of_repo_urls("data/users_repos.json")
 
 
 def make_json_file_of_users_spaces(key, secret):
@@ -34,8 +33,10 @@ def make_json_file_of_users_spaces(key, secret):
         json.dump(parsed_data, json_of_users_spaces, indent=4)
 
 # Str -> List
-# Given a JSON filepath of all the spaces a user belongs to, pull out the ID of each Space
 def make_list_of_space_ids(str):
+    """
+    Given a JSON filepath of all the spaces a user belongs to, pull out the ID of each Space
+    """
     list_of_space_ids = []
     with open(str, "r") as user_spaces_json:
         user_spaces = json.load(user_spaces_json)
@@ -44,9 +45,11 @@ def make_list_of_space_ids(str):
     return list_of_space_ids
 
 # Lst, Str -> JSON
-# Given a list of space ids and a file path, create a json file of all the repos in those spaces at the given file path
 # ["space-id-1", "space-id-2", "space-id-3"], "file/path" -> JSON
 def make_json_of_spaces_repos(list, str):
+    """
+    Given a list of space ids and a file path, create a json file of all the repos in those spaces at the given file path
+    """
     # Create empty JSON file
     with open(str, "w") as repo_list:
         json.dump([], repo_list)
@@ -78,8 +81,10 @@ def make_json_of_spaces_repos(list, str):
 
 
 # Str -> List
-# Given a file path of a JSON file which holds the repo information for all the spaces, extract the repo URLs and make a list
 def make_list_of_repo_urls(str):
+    """
+    Given a file path of a JSON file which holds the repo information for all the spaces, extract the repo URLs and make a list
+    """
     list_of_repo_urls = []
     with open(str, "r") as repo_list:
         repo_list_content = json.load(repo_list)
@@ -87,7 +92,10 @@ def make_list_of_repo_urls(str):
         for repo in space_repo:
             if type(repo) is dict:
                 list_of_repo_urls .append(repo["ssh_clone_url"])
+    
+    # Create JSON file of repo addresses
+    with open("data/users_repo_addys.json", "w") as repo_addys:
+        json.dump(list_of_repo_urls, repo_addys, indent=2)
     return list_of_repo_urls 
 
-# main()
-make_json_file_of_users_spaces(api_key, api_secret)
+main()
