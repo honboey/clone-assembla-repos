@@ -1,6 +1,8 @@
 import subprocess
 import json
 import os
+import pprint
+
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -25,10 +27,11 @@ def make_json_file_of_users_spaces(key, secret):
         text=True,
         capture_output=True,
     ).stdout
-    # with open("data/users_spaces.json", "w") as json_of_users_spaces:
-    #     json.dump(output_raw, json_of_users_spaces, indent=4)
-    print(output_raw)
-    return output_raw
+
+    # Remove all the `\\r\\n` from output_raw
+    parsed_data = json.loads(output_raw) 
+    with open("data/users_spaces.json", "w") as json_of_users_spaces:
+        json.dump(parsed_data, json_of_users_spaces, indent=4)
 
 # Str -> List
 # Given a JSON filepath of all the spaces a user belongs to, pull out the ID of each Space
