@@ -35,6 +35,11 @@ with open(
 ) as test_repo_list_result_json:
     test_spaces_repos = json.load(test_repo_list_result_json)
 
+with open(
+    "data/test-data/test_ticket_list.json", "r"
+) as test_ticket_list:
+    test_tickets = json.load(test_ticket_list)
+
 
 # Tests
 
@@ -74,4 +79,7 @@ def test_make_list_of_repo_urls__remove_unwanted_repos():
 
 
 def test_get_spaces_tickets():
-    ... 
+    assert (
+        get_spaces_tickets(test_list_of_spaces_ids)
+        == test_tickets
+    )
