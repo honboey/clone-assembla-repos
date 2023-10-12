@@ -28,9 +28,11 @@ def make_json_file_of_users_spaces(key, secret):
     ).stdout
 
     # Remove all the `\\r\\n` from output_raw
-    parsed_data = json.loads(output_raw) 
+    parsed_data = json.loads(output_raw)
     with open("data/users_spaces.json", "w") as json_of_users_spaces:
         json.dump(parsed_data, json_of_users_spaces, indent=4)
+    return parsed_data
+
 
 # Str -> List
 def make_list_of_space_ids(str):
@@ -43,6 +45,7 @@ def make_list_of_space_ids(str):
     for space in user_spaces:
         list_of_space_ids.append(space["id"])
     return list_of_space_ids
+
 
 # Lst, Str -> JSON
 # ["space-id-1", "space-id-2", "space-id-3"], "file/path" -> JSON
@@ -83,19 +86,31 @@ def make_json_of_spaces_repos(list, str):
 # Str -> List
 def make_list_of_repo_urls(str):
     """
-    Given a file path of a JSON file which holds the repo information for all the spaces, extract the repo URLs and make a list
+    Given a file path of a JSON file which holds the repo information for all the spaces, extract the repo URLs and make a list.
+    We also want to remove the following repos from the list:
+    • 21sites
+    • IWC
+    • Ministry of Sound
+    • Subversion repos
     """
     list_of_repo_urls = []
     with open(str, "r") as repo_list:
         repo_list_content = json.load(repo_list)
-    for space_repo in repo_list_content:
-        for repo in space_repo:
+    for space_repos in repo_list_content:
+        for repo in space_repos:
             if type(repo) is dict:
-                list_of_repo_urls .append(repo["ssh_clone_url"])
-    
+                if (
+                    "21sites" not in repo["ssh_clone_url"]
+                    and "iwc" not in repo["ssh_clone_url"]
+                    and "ministryofsound" not in repo["ssh_clone_url"]
+                    and "subversion" not in repo["ssh_clone_url"]
+                ):
+                    list_of_repo_urls.append(repo["ssh_clone_url"])
+
     # Create JSON file of repo addresses
     with open("data/users_repo_addys.json", "w") as repo_addys:
         json.dump(list_of_repo_urls, repo_addys, indent=2)
-    return list_of_repo_urls 
+    return list_of_repo_urls
+
 
 main()

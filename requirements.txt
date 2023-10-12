@@ -1,5 +1,16 @@
+black==23.9.1
+certifi==2023.5.7
+charset-normalizer==3.2.0
+click==8.1.7
+idna==3.4
 iniconfig==2.0.0
+mypy-extensions==1.0.0
 packaging==23.1
+pathspec==0.11.2
+platformdirs==3.11.0
 pluggy==1.2.0
+prettier==0.0.7
 pytest==7.4.0
 python-dotenv==1.0.0
+requests==2.31.0
+urllib3==2.0.3

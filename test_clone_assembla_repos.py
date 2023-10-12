@@ -39,7 +39,7 @@ with open(
 
 
 def test_make_json_file_of_users_spaces():
-    assert make_json_file_of_users_spaces(api_key, api_secret) == test_spaces_repos
+    assert make_json_file_of_users_spaces(api_key, api_secret) == test_json_of_spaces
 
 
 def test_make_list_of_space_ids():
@@ -61,5 +61,12 @@ def test_make_json_of_spaces_repos():
 def test_make_list_of_repo_urls():
     assert (
         make_list_of_repo_urls("data/test-data/test_repo_list.json")
+        == test_list_of_repo_urls
+    )
+
+
+def test_make_list_of_repo_urls__remove_unwanted_repos():
+    assert (
+        make_list_of_repo_urls("data/test-data/test_repo_list--unwanted_repos.json")
         == test_list_of_repo_urls
     )
