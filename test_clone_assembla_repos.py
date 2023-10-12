@@ -6,7 +6,7 @@ from clone_assembla_repos import (
     make_json_of_spaces_repos,
     make_list_of_repo_urls,
 )
-from get_assembla_tickets import get_spaces_tickets
+from get_assembla_tickets import get_spaces_tickets, get_ticket_comments
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -82,4 +82,11 @@ def test_get_spaces_tickets():
     assert (
         get_spaces_tickets(test_list_of_spaces_ids)
         == test_tickets
+    )
+
+
+def test_get_ticket_comments():
+    assert (
+        get_ticket_comments("data/test-data/test_ticket_list.json")
+        == ...
     )

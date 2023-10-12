@@ -82,16 +82,16 @@ def get_ticket_comments(str):
                 output_json = json.loads(output_raw)
 
             # Open and then add to the JSON file
-            with open("data/users_tickets.json", "r") as tickets:
-                existing_data = json.load(tickets)
+            with open("data/users_ticket_comments.json", "r") as ticket_comments:
+                existing_data = json.load(ticket_comments)
             existing_data.append(output_json)
-            with open("data/users_tickets.json", "w") as tickets:
-                json.dump(existing_data, tickets, indent=2)
+            with open("data/users_ticket_comments.json", "w") as ticket_comments:
+                json.dump(existing_data, ticket_comments, indent=2)
 
-    with open("data/users_tickets.json", "r") as tickets:
-        tickets_content = json.load(tickets)
+    with open("data/users_ticket_comments.json", "r") as ticket_comments:
+        ticket_comments_content = json.load(ticket_comments)
     
-    return tickets_content
+    return ticket_comments_content 
 
 
 
