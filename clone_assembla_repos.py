@@ -131,5 +131,5 @@ def clone_repos(str):
             print(f"Git clone of {repo_url} failed with error {e}\n\n\n\n")
 
 
-# main()
-clone_repos("data/users_repo_addys.json")
+if __name__ == "__main__":
+    main()
