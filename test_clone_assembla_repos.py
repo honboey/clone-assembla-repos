@@ -6,6 +6,7 @@ from clone_assembla_repos import (
     make_json_of_spaces_repos,
     make_list_of_repo_urls,
 )
+from get_assembla_tickets import get_spaces_tickets
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -25,8 +26,8 @@ test_list_of_spaces_ids = [
 ]
 
 test_list_of_repo_urls = [
-    "git@git.assembla.com:abacus.git",
-    "git@git.assembla.com:abc-moma.git",
+    "https://git.assembla.com/abacus.git",
+    "https://git.assembla.com/abc-moma.git",
 ]
 
 with open(
@@ -70,3 +71,7 @@ def test_make_list_of_repo_urls__remove_unwanted_repos():
         make_list_of_repo_urls("data/test-data/test_repo_list--unwanted_repos.json")
         == test_list_of_repo_urls
     )
+
+
+def test_get_spaces_tickets():
+    ... 

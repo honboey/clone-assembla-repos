@@ -1,3 +1,4 @@
+from re import sub
 import subprocess
 import json
 import os
@@ -16,6 +17,7 @@ def main():
     list_of_space_ids = make_list_of_space_ids("data/users_spaces.json")
     make_json_of_spaces_repos(list_of_space_ids, "data/users_repos.json")
     make_list_of_repo_urls("data/users_repos.json")
+    clone_repos("data/users_repo_addys.json")
 
 
 def make_json_file_of_users_spaces(key, secret):
@@ -100,12 +102,12 @@ def make_list_of_repo_urls(str):
         for repo in space_repos:
             if type(repo) is dict:
                 if (
-                    "21sites" not in repo["ssh_clone_url"]
-                    and "iwc" not in repo["ssh_clone_url"]
-                    and "ministryofsound" not in repo["ssh_clone_url"]
-                    and "subversion" not in repo["ssh_clone_url"]
+                    "21sites" not in repo["https_clone_url"]
+                    and "iwc" not in repo["https_clone_url"]
+                    and "ministryofsound" not in repo["https_clone_url"]
+                    and "subversion" not in repo["https_clone_url"]
                 ):
-                    list_of_repo_urls.append(repo["ssh_clone_url"])
+                    list_of_repo_urls.append(repo["https_clone_url"])
 
     # Create JSON file of repo addresses
     with open("data/users_repo_addys.json", "w") as repo_addys:
@@ -113,4 +115,21 @@ def make_list_of_repo_urls(str):
     return list_of_repo_urls
 
 
-main()
+def clone_repos(str):
+    """
+    Given a file path of a JSON file of a list of ssh clone urls, git clone all those repos to disc
+    """
+    with open(str, "r") as repo_url_list:
+        repo_url_list_content = json.load(repo_url_list)
+
+    for repo_url in repo_url_list_content:
+        git_clone_command = ["git", "clone", "--mirror", repo_url]
+        try:
+            subprocess.run(git_clone_command, check=True)
+            print("{repo_url} Clone successful\n\n\n\n")
+        except subprocess.CalledProcessError as e:
+            print(f"Git clone of {repo_url} failed with error {e}\n\n\n\n")
+
+
+# main()
+clone_repos("data/users_repo_addys.json")
