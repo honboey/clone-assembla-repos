@@ -40,6 +40,11 @@ with open(
 ) as test_ticket_list:
     test_tickets = json.load(test_ticket_list)
 
+with open(
+    "data/test-data/test_ticket_comments.json", "r"
+) as test_ticket_comments:
+    test_ticket_comments_content = json.load(test_ticket_comments)
+
 
 # Tests
 
@@ -88,5 +93,5 @@ def test_get_spaces_tickets():
 def test_get_ticket_comments():
     assert (
         get_ticket_comments("data/test-data/test_ticket_list.json")
-        == ...
+        == test_ticket_comments_content
     )
