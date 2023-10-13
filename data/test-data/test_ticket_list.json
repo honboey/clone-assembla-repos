@@ -663,6 +663,9 @@
       "worked_hours": 0.0
     }
   ],
+  {
+    "error": "Tool not found for this project"
+  },
   [
     {
       "id": 9677493,

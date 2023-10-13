@@ -15,8 +15,9 @@ api_secret = os.getenv("ASSEMBLA_SECRET")
 def main():
     make_json_file_of_users_spaces(api_key, api_secret)
     list_of_space_ids = make_list_of_space_ids("data/users_spaces.json")
-    get_spaces_tickets(list_of_space_ids, api_key, api_secret)
+    get_spaces_tickets(list_of_space_ids)
     get_ticket_comments("data/users_tickets.json")
+    get_ticket_attachments("data/users_tickets.json")
 
 
 def get_spaces_tickets(lst):
@@ -69,16 +70,19 @@ def get_ticket_comments(str):
 
     for space in tickets_content:
         for ticket in space:
-            call_api_for_ticket_comments = f"curl -H 'X-Api-Key: {api_key}' -H 'X-Api-Secret: {api_secret}' https://api.assembla.com/v1/spaces/{ticket['space_id']}/tickets/{ticket['number']}/ticket_comments.json"
-            output_raw = subprocess.run(
-                call_api_for_ticket_comments,
-                shell=True,
-                text=True,
-                capture_output=True,
-            ).stdout
+            try:
+                call_api_for_ticket_comments = f"curl -H 'X-Api-Key: {api_key}' -H 'X-Api-Secret: {api_secret}' https://api.assembla.com/v1/spaces/{ticket['space_id']}/tickets/{ticket['number']}/ticket_comments.json"
+                output_raw = subprocess.run(
+                    call_api_for_ticket_comments,
+                    shell=True,
+                    text=True,
+                    capture_output=True,
+                ).stdout
+            except TypeError:
+                pass
 
             # Convert raw output to JSON if it is not an empty string
-            if output_raw != "":
+            if output_raw != "" and output_raw != "":
                 output_json = json.loads(output_raw)
 
             # Open and then add to the JSON file
@@ -92,6 +96,46 @@ def get_ticket_comments(str):
         ticket_comments_content = json.load(ticket_comments)
     
     return ticket_comments_content 
+
+
+def get_ticket_attachments(str):
+    """
+    Given a JSON file of tickets, create another JSON of each ticket's corresponding attachments.
+    """
+    # Open the JSON file of tickets
+    with open(str, "r") as tickets:
+        tickets_content = json.load(tickets)
+
+    # Create empty JSON file
+    with open("data/users_ticket_attachments.json", "w") as ticket_attachments:
+        json.dump([], ticket_attachments)
+
+
+    for space in tickets_content:
+        for ticket in space:
+            call_api_for_ticket_attachments = f"curl -H 'X-Api-Key: {api_key}' -H 'X-Api-Secret: {api_secret}' https://api.assembla.com/v1/spaces/{ticket['space_id']}/tickets/{ticket['number']}/attachments.json"
+            output_raw = subprocess.run(
+                call_api_for_ticket_attachments,
+                shell=True,
+                text=True,
+                capture_output=True,
+            ).stdout
+
+            # Convert raw output to JSON if it is not an empty string
+            if output_raw != "":
+                output_json = json.loads(output_raw)
+
+            # Open and then add to the JSON file
+            with open("data/users_ticket_attachments.json", "r") as ticket_attachments:
+                existing_data = json.load(ticket_attachments)
+            existing_data.append(output_json)
+            with open("data/users_ticket_attachments.json", "w") as ticket_attachments:
+                json.dump(existing_data, ticket_attachments, indent=2)
+
+    with open("data/users_ticket_attachments.json", "r") as ticket_attachments:
+        ticket_attachments_content = json.load(ticket_attachments)
+    
+    return ticket_attachments_content 
 
 
 
