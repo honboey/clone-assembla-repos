@@ -4,7 +4,7 @@ import os
 
 from dotenv import load_dotenv
 
-from clone_assembla_repos import make_json_file_of_users_spaces,  make_list_of_space_ids
+from clone_assembla_repos import make_json_file_of_users_spaces, make_list_of_space_ids
 
 load_dotenv()
 
@@ -28,7 +28,6 @@ def get_spaces_tickets(lst):
     with open("data/users_tickets.json", "w") as tickets:
         json.dump([], tickets)
 
-
     for space_id in lst:
         call_api_for_spaces_tickets = f"curl -H 'X-Api-Key: {api_key}' -H 'X-Api-Secret: {api_secret}' https://api.assembla.com/v1/spaces/{space_id}/tickets.json"
         output_raw = subprocess.run(
@@ -51,7 +50,7 @@ def get_spaces_tickets(lst):
 
     with open("data/users_tickets.json", "r") as tickets:
         tickets_content = json.load(tickets)
-    
+
     return tickets_content
 
 
@@ -66,7 +65,6 @@ def get_ticket_comments(str):
     # Create empty JSON file
     with open("data/users_ticket_comments.json", "w") as ticket_comments:
         json.dump([], ticket_comments)
-
 
     for space in tickets_content:
         for ticket in space:
@@ -94,8 +92,8 @@ def get_ticket_comments(str):
 
     with open("data/users_ticket_comments.json", "r") as ticket_comments:
         ticket_comments_content = json.load(ticket_comments)
-    
-    return ticket_comments_content 
+
+    return ticket_comments_content
 
 
 def get_ticket_attachments(str):
@@ -109,7 +107,6 @@ def get_ticket_attachments(str):
     # Create empty JSON file
     with open("data/users_ticket_attachments.json", "w") as ticket_attachments:
         json.dump([], ticket_attachments)
-
 
     for space in tickets_content:
         for ticket in space:
@@ -134,11 +131,9 @@ def get_ticket_attachments(str):
 
     with open("data/users_ticket_attachments.json", "r") as ticket_attachments:
         ticket_attachments_content = json.load(ticket_attachments)
-    
-    return ticket_attachments_content 
 
+    return ticket_attachments_content
 
 
 if __name__ == "__main__":
     main()
-

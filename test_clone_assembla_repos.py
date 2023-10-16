@@ -6,7 +6,11 @@ from clone_assembla_repos import (
     make_json_of_spaces_repos,
     make_list_of_repo_urls,
 )
-from get_assembla_tickets import get_spaces_tickets, get_ticket_attachments, get_ticket_comments
+from get_assembla_tickets import (
+    get_spaces_tickets,
+    get_ticket_attachments,
+    get_ticket_comments,
+)
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -35,14 +39,10 @@ with open(
 ) as test_repo_list_result_json:
     test_spaces_repos = json.load(test_repo_list_result_json)
 
-with open(
-    "data/test-data/test_ticket_list.json", "r"
-) as test_ticket_list:
+with open("data/test-data/test_ticket_list.json", "r") as test_ticket_list:
     test_tickets = json.load(test_ticket_list)
 
-with open(
-    "data/test-data/test_ticket_comments.json", "r"
-) as test_ticket_comments:
+with open("data/test-data/test_ticket_comments.json", "r") as test_ticket_comments:
     test_ticket_comments_content = json.load(test_ticket_comments)
 
 
@@ -84,10 +84,7 @@ def test_make_list_of_repo_urls__remove_unwanted_repos():
 
 
 def test_get_spaces_tickets():
-    assert (
-        get_spaces_tickets(test_list_of_spaces_ids)
-        == test_tickets
-    )
+    assert get_spaces_tickets(test_list_of_spaces_ids) == test_tickets
 
 
 def test_get_ticket_comments():
@@ -96,8 +93,9 @@ def test_get_ticket_comments():
         == test_ticket_comments_content
     )
 
-# def test_get_ticket_attachments():
-#     assert (
-#         get_ticket_attachments("data/test-data/test_ticket_list.json")
-#         == ...
-#     )
+
+def test_get_ticket_attachments():
+    assert (
+        get_ticket_attachments("data/test-data/test_ticket_list.json")
+        == ...
+    )
