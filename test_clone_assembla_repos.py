@@ -95,7 +95,4 @@ def test_get_ticket_comments():
 
 
 def test_get_ticket_attachments():
-    assert (
-        get_ticket_attachments("data/test-data/test_ticket_list.json")
-        == ...
-    )
+    assert get_ticket_attachments("data/test-data/test_ticket_list.json") == ...

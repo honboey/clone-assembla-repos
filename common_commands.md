@@ -1,0 +1,1 @@
+curl -H 'X-Api-Key: 7c9fc44d335cfeb3e61e' -H 'X-Api-Secret: bd07c14f3e16e2cbce8ea4b9d035182f020da797' https://api.assembla.com/v1/spaces/bHeZE2SX4r3PYIeJe5afGb/documents/bKUaLog2Cr36BMeJe5aVNr/download
