@@ -17,7 +17,6 @@ def main():
     list_of_space_ids = make_list_of_space_ids("data/users_spaces.json")
     get_spaces_tickets(list_of_space_ids)
     get_ticket_comments("data/users_tickets.json")
-    get_ticket_attachments("data/users_tickets.json")
 
 
 def get_spaces_tickets(lst):
