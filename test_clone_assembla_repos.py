@@ -8,7 +8,6 @@ from clone_assembla_repos import (
 )
 from get_assembla_tickets import (
     get_spaces_tickets,
-    get_ticket_attachments,
     get_ticket_comments,
 )
 from dotenv import load_dotenv
@@ -94,5 +93,3 @@ def test_get_ticket_comments():
     )
 
 
-def test_get_ticket_attachments():
-    assert get_ticket_attachments("data/test-data/test_ticket_list.json") == ...
