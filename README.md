@@ -1,7 +1,7 @@
 # Clone all Assembla repos
 
 There are three python scripts in this repo:
-1. `clone_assembla_repos.py`: This is a Python script that clones all your available Assembla repos. 
+1. `clone_assembla_repos.py`: This is a Python script that clones all your available Assembla repos.
 2. `get_assembla_tickets.py`: This is a Python script that grabs all the tickets in your Assembla spaces.
 2. `get_assembla_documents.py`: This is a Python script that grabs all the documents/attachments in your Assembla spaces.
 
@@ -12,7 +12,7 @@ There are three python scripts in this repo:
 #### 1. Install all the requirements
 In your terminal run `pip install -r requirements.txt`. It may also be a good idea to setup a virtual environment before doing so.
 
-#### 2. Register a new personal key in Assembla. 
+#### 2. Register a new personal key in Assembla.
 To register a personal key in Assembla you will need to sign into your account and then go to `Account Information > Security > API Application & Sessions`. As of 9 Aug 2023, the direct link is https://app.assembla.com/user/edit/manage_clients.
 Under "Register new personal key", give your key a description and tick "API access" and "Repository access"
 
@@ -67,7 +67,7 @@ Running the `get_assembla_tickets.py` script will output three JSON files:
 #### 1. Follow steps 1–3 in the above
 
 #### 2. Run the script
-Run the script by running `python get_assembla_docs.py`. 
+Run the script by running `python get_assembla_docs.py`.
 
 #### 3. Get the exported files from `/data/documents`.
 
@@ -78,4 +78,23 @@ Running the script will do three things:
 2. Create another file in `/data` called `users_documents.json`
 3. Download all the documents into `/data/documents`
 
-Each document will be named with its unique id. For example, if the document is a PNG, and it's UID is `1234`, then the file will be named `1234.png`. This UID can be found in the `users_documents.json` file, which also contains other information such as what space it belongs to and which ticket it is associated with. 
+Each document will be named with its unique id. For example, if the document is a PNG, and it's UID is `1234`, then the file will be named `1234.png`. This UID can be found in the `users_documents.json` file, which also contains other information such as what space it belongs to and which ticket it is associated with.
+
+## Restoring to a new Git host
+
+The Assembla repositories are fetched with `--mirror` so they contain all the branch data. If you create a new repository somewhere else (eg. GitHub), then you can add that one as a second remote, something like this:
+
+
+```
+git remote add new_origin https://github.com/<username>/<repository>.git
+```
+
+Once you've done that then you can push all the branches to that new repository with:
+
+```
+git push new_origin --mirror
+```
+
+The git repository as mirrored from Assembla can contain some empty folders, notably `refs/heads` and `refs/tags` and without these folders `git` commands don't work properly.
+
+If you're archiving the Assembla repositories into S3 for exmaple, you should note that it doesn't normally keep a record of empty folders, so `refs/heads` and `refs/tags` won't reappear when you restore your archive from S3. So it's probably wise to zip the repositories before archiving.
